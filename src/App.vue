@@ -1,6 +1,6 @@
 <template>
   <div id="app">
-    <p>Multi-Cascader 示例</p>
+    <p>Ele-Multi-Cascader 示例</p>
     <br>
     <br>
     <el-row>
