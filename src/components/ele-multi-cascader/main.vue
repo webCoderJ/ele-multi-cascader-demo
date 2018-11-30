@@ -35,6 +35,7 @@
             <el-checkbox
               :disabled="item.disabled"
               v-model="item.checked"
+              :indeterminate="item.indeterminate && !item.checked"
               @change="checked => { checkedChange(item, index, checked) }"
             ></el-checkbox>&nbsp;&nbsp;
             <span>{{ item.label }}</span>
@@ -82,7 +83,7 @@ export default {
       type: Boolean,
       default: false
     },
-    checkgroup: {
+    checktree: {
       type: Boolean,
       default: false
     },
@@ -167,7 +168,7 @@ export default {
           // this.selectedLabels.push(child.label);
           child.checked = true;
           this.describeCheckedMap(child);
-          if(this.checkgroup){
+          if(this.checktree){
             this.detectAllChecked(child);
           }
         } else {
@@ -229,11 +230,29 @@ export default {
       }
       filterChecked(vm.clonedOpts);
     },
+    // 标记 indeterminate
+    markIndeterminate(arr, status){
+      arr.forEach(item => item.indeterminate = status);
+    },
+    // 全选children
+    checkedAllChildren(children = [], checked){
+      if(!children) return;
+      children.forEach(child => {
+        if(!child.disabled){
+          child.checked = checked;
+        }
+        if (child.children && child.children.length > 0) {
+          this.checkedAllChildren(child.children, checked);
+        }
+      });
+    },
     // 全选反选
     detectAllChecked(targetChild){
+      const vm = this;
       function findTargetItem(parents = [], children) {
         children.forEach(child => {
           if (targetChild.value === child.value) {
+            child.indeterminate = false;
             if (child.checked) {
               // 选中全部子项
               if(child.children && child.children.length > 0){
@@ -313,7 +332,8 @@ export default {
         this.selectedValues.push(item.value);
       });
       this.describeCheckedMap(item);
-      if(this.checkgroup){
+      if(this.checktree){
+        this.checkedAllChildren(item.children, item.checked);
         this.detectAllChecked(item);
         this.refreshCheckedItems();
       }
