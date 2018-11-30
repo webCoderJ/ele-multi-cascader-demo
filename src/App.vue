@@ -3,8 +3,8 @@
     <p>Ele-Multi-Cascader 示例</p>
     <br>
     <br>
-    <el-row>
-      <el-col :offset="2" :span="6">
+    <el-row class="demo-wrapper">
+      <el-col :gutter="100" class="demo-col" :span="8">
         <div style="text-align: left;">
           <p>Data</p>
           <pre>
@@ -12,7 +12,11 @@
           </pre>
         </div>
       </el-col>
-      <el-col :span="8">
+      <el-col :gutter="100" class="demo-col" :span="8">
+        <br>
+        <br>
+        <br>
+        <br>
         <el-form label-width="80px" ref="form" :model="form" :rules="rules" label-position="left">
           <el-form-item label="ISP: " prop="isp">
             <ele-multi-cascader
@@ -22,16 +26,13 @@
               @change="ispChange"
             ></ele-multi-cascader>
           </el-form-item>
-          <el-form-item>
-            <br>
-            <br>
-            <el-button type="primary" @click="submit">测试提交</el-button>
-          </el-form-item>
+          <br>
+          <br>
+          <p><el-button type="primary" @click="submit">测试提交</el-button></p>
         </el-form>
       </el-col>
-      <el-col :offset="2" :span="6" style="text-align: left;">
-        <p>Output</p>
-        <br><br>
+      <el-col :gutter="100" class="demo-col" :span="8" style="text-align: left;">
+        <p>Output @change(values, items)</p>
         <p>Values</p>
         <pre>
           {{ outputs.values }}
@@ -73,7 +74,7 @@ export default {
         ]
       },
       form: {
-        isp: []
+        isp: [58, 59]
       }
     };
   },
@@ -104,5 +105,15 @@ export default {
   text-align: center;
   color: #2c3e50;
   margin-top: 60px;
+}
+.demo-wrapper {
+  height: 500px;
+  width: 100%;
+}
+.demo-col {
+  height: 100%;
+  overflow: auto;
+  border: 1px dashed #ccc;
+  padding: 0 20px;
 }
 </style>
