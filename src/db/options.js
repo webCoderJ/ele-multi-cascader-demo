@@ -11,8 +11,7 @@ module.exports = [
                     { label: "江苏电信", id: 53, children: null, value: 53 }
                 ],
                 id: 11,
-                value: 11,
-                disabled: true
+                value: 11
             },
             {
                 label: "华南电信",
@@ -21,8 +20,7 @@ module.exports = [
                     { label: "广西电信", id: 59, children: null, value: 59 },
                 ],
                 id: 12,
-                value: 12,
-                disabled: true
+                value: 12
             },
         ],
         id: 1,

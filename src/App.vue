@@ -24,6 +24,7 @@
               v-model="form.isp"
               placeholder="选择运营商"
               @change="ispChange"
+              :checkegroup="true"
             ></ele-multi-cascader>
           </el-form-item>
           <br>
