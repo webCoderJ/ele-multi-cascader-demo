@@ -1,6 +1,6 @@
 <template>
   <div id="app">
-    <p>Ele-Multi-Cascader 示例</p>
+    <p class="title">Ele-Multi-Cascader 示例</p>
     <br>
     <br>
     <el-row class="demo-wrapper">
@@ -17,8 +17,8 @@
         <br>
         <br>
         <br>
-        <el-form label-width="80px" ref="form" :model="form" :rules="rules" label-position="left">
-          <el-form-item label="ISP: " prop="isp">
+        <el-form label-width="100px" ref="form" :model="form" :rules="rules" label-position="left">
+          <el-form-item label="运营商: " prop="isp">
             <ele-multi-cascader
               :options="options"
               v-model="form.isp"
@@ -97,7 +97,7 @@ export default {
 };
 </script>
 
-<style>
+<style scoped>
 #app {
   font-family: "Avenir", Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
@@ -105,6 +105,9 @@ export default {
   text-align: center;
   color: #2c3e50;
   margin-top: 60px;
+}
+.title {
+  font-weight: 600;
 }
 .demo-wrapper {
   height: 500px;
