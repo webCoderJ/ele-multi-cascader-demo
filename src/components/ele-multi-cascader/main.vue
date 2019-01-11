@@ -100,10 +100,7 @@ export default {
     value: {
       deep: true,
       handler() {
-        if (!this.hasInitModel) {
-          this.initDatas();
-          this.hasInitModel = true;
-        }
+        this.initDatas();
       }
     }
   },
@@ -133,8 +130,7 @@ export default {
       casTree: [],
       selectedItems: [],
       selectedLabels: [],
-      selectedValues: [],
-      hasInitModel: false
+      selectedValues: []
     };
   },
   methods: {
@@ -142,12 +138,17 @@ export default {
       this.clonedOpts = deepClone(this.options);
       this.casTree = [this.clonedOpts];
     },
-    // 初始化
+    /**
+     * 初始化数据
+     * 空值初始化，两个绑定不一致的情况
+     */
     initDatas() {
-      this.selectedValues = this.value;
-      this.selectedItems = [];
-      this.selectedLabels = [];
-      this.recursiveOpt(this.clonedOpts);
+      if(this.selectedValues != this.value){
+        this.selectedValues = this.value;
+        this.selectedItems = [];
+        this.selectedLabels = [];
+        this.recursiveOpt(this.clonedOpts);
+      }
     },
     // 递归option数据
     recursiveOpt(children) {

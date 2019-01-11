@@ -78,6 +78,9 @@ export default {
       }
     };
   },
+  created(){
+
+  },
   methods: {
     ispChange(values, items) {
       this.outputs.values = values;
