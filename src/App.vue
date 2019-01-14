@@ -4,6 +4,9 @@
     <a href="https://github.com/webcoderj/ele-multi-cascader-demo/">
       <el-button type="success" size="mini" plain>@github</el-button>
     </a>
+    <a class="ml10" href="https://www.npmjs.com/package/ele-multi-cascader">
+      <el-button type="warning" size="mini" plain>@npm</el-button>
+    </a>
     <br>
     <br>
     <el-row class="demo-wrapper">
@@ -146,5 +149,8 @@ export default {
   overflow: auto;
   border: 1px dashed #ccc;
   padding: 0 20px;
+}
+.ml10 {
+  margin-left: 10px;
 }
 </style>
