@@ -39,7 +39,7 @@
         </pre>
         <p>Items</p>
         <pre>
-          {{ outputs.items }}
+          <!-- {{ outputs.items }} -->
         </pre>
       </el-col>
     </el-row>

@@ -12,7 +12,7 @@ module.exports = [
                 ],
                 id: 11,
                 value: 11,
-                disabled: true
+                // disabled: true
             },
             {
                 label: "华南电信",
@@ -22,7 +22,7 @@ module.exports = [
                 ],
                 id: 12,
                 value: 12,
-                disabled: true
+                // disabled: true
             },
         ],
         id: 1,
