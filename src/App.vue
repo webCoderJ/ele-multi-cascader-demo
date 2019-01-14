@@ -1,6 +1,9 @@
 <template>
   <div id="app">
     <p class="title">Ele-Multi-Cascader 示例</p>
+    <a href="https://github.com/webcoderj/ele-multi-cascader-demo/">
+      <el-button type="success" size="mini" plain>@github</el-button>
+    </a>
     <br>
     <br>
     <el-row class="demo-wrapper">
