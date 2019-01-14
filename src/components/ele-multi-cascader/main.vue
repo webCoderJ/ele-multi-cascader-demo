@@ -111,12 +111,17 @@ export default {
       deep: true,
       handler() {
         this.initOpts();
+        this.initDatas();
       }
     },
     value: {
       deep: true,
       handler() {
-        this.initDatas();
+        if(this.selectedValues != this.value){
+          console.log("MODEL - CHANGE");
+          this.initOpts();
+          this.initDatas();
+        }
       }
     }
   },
@@ -160,9 +165,7 @@ export default {
      * 空值初始化，两个绑定不一致的情况
      */
     initDatas() {
-      if(this.selectedValues != this.value){
-        this.pickCheckedItem(this.clonedOpts);
-      }
+      this.pickCheckedItem(this.clonedOpts);
     },
     /**
      * 递归option数据
@@ -191,6 +194,7 @@ export default {
     /**
      * 根据当前节点 checked
      * 更改所有子孙节点 checked
+     * 依赖 this.selectChildren
      */
     markChildrenChecked(node){
       function loop(children, status){
@@ -211,6 +215,7 @@ export default {
     },
     /**
      * 标记父节点 checked、indeterminate 状态
+     * 依赖 this.selectChildren
      */
     markParentChecked(node){
       node.indeterminate = false;
@@ -244,6 +249,7 @@ export default {
     },
     /**
      * 标记是否有被选子项
+     * 依赖 this.selectChildren
      */
     markParentHasCheckChild(node){
       node.hasCheckedChild = false;
@@ -341,6 +347,7 @@ export default {
     // 菜单选中变化
     checkedChange(item, checked) {
       item.checked = checked;
+      this.$emit("clickItem", item);
       this.markChildrenChecked(item);
       this.markParentChecked(item);
       this.markParentHasCheckChild(item);
@@ -379,15 +386,6 @@ export default {
       if (this.disabled) return;
       this.showPopover = true;
     },
-    // visibleChange(show){
-    //   if (this.disabled) return;
-    //   this.showPopover = show;
-    //   if(show){
-    //     this.$emit("focus");
-    //   } else {
-    //     this.$emit("blur");
-    //   }
-    // },
     hidePopover(evt) {
       this.showPopover = false;
       this.$emit("blur", evt);
