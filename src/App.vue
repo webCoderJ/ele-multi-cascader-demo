@@ -1,7 +1,7 @@
 <template>
   <div id="app">
     <p class="title">Ele-Multi-Cascader 示例</p>
-    <a href="https://github.com/webcoderj/ele-multi-cascader-demo/">
+    <a href="https://github.com/webCoderJ/ele-multi-cascader">
       <el-button type="success" size="mini" plain>@github</el-button>
     </a>
     <a class="ml10" href="https://www.npmjs.com/package/ele-multi-cascader">
