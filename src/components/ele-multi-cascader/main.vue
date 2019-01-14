@@ -7,26 +7,28 @@
       v-model="showPopover"
     >
       <div slot="reference">
-        <el-select
-          multiple
-          @remove-tag="removeTag"
-          v-model="selectedLabels"
-          :placeholder="placeholder"
-          style="width: 100%;"
-          popper-class="hide-popper"
-          @focus="handleFocus"
-          @blur="handleBlur"
-          :disabled="disabled"
-          :size="size"
-        ></el-select>
+        <span @click.native="togglePopover">
+          <el-select
+            multiple
+            v-model="selectedLabels"
+            :placeholder="placeholder"
+            :disabled="disabled"
+            :size="size"
+            style="width: 100%;"
+            popper-class="hide-popper"
+            @focus="handleFocus"
+            @blur="handleBlur"
+            @remove-tag="removeTag"
+          ></el-select>
+        </span>
       </div>
       <div class="cascader-menu-wrapper" v-click-outside="hidePopover">
-        <ul class="el-cascader-menu cascader-menu" v-for="(cas, index) in casTree" :key="index">
+        <ul v-if="options.length > 0" class="el-cascader-menu cascader-menu" v-for="(cas, index) in casTree" :key="index">
           <li
             :class="{
               'el-cascader-menu__item': true,
               'el-cascader-menu__item--extensible': item.children && item.children.length > 0,
-              'has-checked-child': item.indeterminate,
+              'has-checked-child': item.indeterminate || item.hasCheckedChild,
               'is-active': item.checked,
             }"
             @click="spreadNext(item.children, index)"
@@ -40,6 +42,11 @@
               @change="checked => { checkedChange(item, checked) }"
             ></el-checkbox>&nbsp;&nbsp;
             <span>{{ item.label }}</span>
+          </li>
+        </ul>
+        <ul class="el-cascader-menu cascader-menu" v-else>
+          <li class="el-cascader-menu__item dropdown__empty">
+            无数据
           </li>
         </ul>
       </div>
@@ -93,6 +100,10 @@ export default {
     size: {
       type: String,
       default: ""
+    },
+    selectChildren: {
+      type: Boolean,
+      default: false
     }
   },
   watch: {
@@ -171,6 +182,7 @@ export default {
         }
         this.markChildrenChecked(node);
         this.markParentChecked(node);
+        this.markParentHasCheckChild(node);
         if (hasArrayChild(node)) {
           vm.recursiveOpt(node.children, node);
         }
@@ -184,14 +196,16 @@ export default {
       function loop(children, status){
         if(children){
           children.map(child => {
-            child.checked = status;
+            if(!child.disabled){
+              child.checked = status;
+            }
             if(hasArrayChild(child)){
               loop(child.children, status)
             }
           })
         }
       }
-      if(node && hasArrayChild(node)){
+      if(node && hasArrayChild(node) && this.selectChildren){
         loop(node.children, node.checked);
       }
     },
@@ -224,7 +238,30 @@ export default {
           loop(node.parent)
         }
       }
-      if(node && node.parent){
+      if(node && node.parent && this.selectChildren){
+        loop(node.parent)
+      }
+    },
+    /**
+     * 标记是否有被选子项
+     */
+    markParentHasCheckChild(node){
+      node.hasCheckedChild = false;
+      function loop(node){
+        let checkCount = 0;
+        let childHasCheckedChild = node.children.some(child => child.hasCheckedChild)
+        node.children.map(child => {
+          if(child.checked){
+            checkCount ++;
+          }
+        })
+        // 子节点有被选中
+        node.hasCheckedChild = (checkCount > 0) || childHasCheckedChild;
+        if(node.parent){
+          loop(node.parent)
+        }
+      }
+      if(node && node.parent && !this.selectChildren){
         loop(node.parent)
       }
     },
@@ -233,19 +270,32 @@ export default {
      * 重新遍历tree，pick除已选中项目
      */
     pickCheckedItem(tree){
+      /**
+       * 移除parent引用
+       */
+      function removeParent(node){
+        let obj = {};
+        Object.keys(node).forEach(key => {
+          if(key != "parent"){
+            obj[key] = node[key];
+          }
+        })
+        if(hasArrayChild(obj)){
+          obj.children = obj.children.map(child => {
+            return removeParent(child);
+          })
+        }
+        return obj;
+      }
       const vm = this;
+      vm.selectedItems = [];
       vm.selectedLabels = [];
       vm.selectedValues = [];
       function loop(data){
         if(Array.isArray(data)){
           data.map(item => {
             if(item.checked){
-              let newItem = {};
-              Object.keys(item).map(key => {
-                if(key != "parent"){
-                  newItem[key] = item[key];
-                }
-              })
+              let newItem = removeParent(item);
               vm.selectedItems.push(newItem);
               vm.selectedLabels.push(newItem.label);
               vm.selectedValues.push(newItem.value);
@@ -258,32 +308,32 @@ export default {
       }
       loop(tree);
     },
-    /**
+    removeTag(label){
+      /**
      * 遍历 tree
      * 根据传入label 寻找 item
      */
-    findNodeByLabel(label){
-      let result = null;
-      function loop(tree){
-        if(tree){
-          tree.find(node => {
-            if(node.label === label){
-              result = node;
-              return true
-            }
-            if(hasArrayChild(node)){
-              loop(node.children)
-            }
-          })
+      function findNodeByLabel(label){
+        let result = null;
+        function loop(tree){
+          if(tree){
+            tree.find(node => {
+              if(node.label === label){
+                result = node;
+                return true
+              }
+              if(hasArrayChild(node)){
+                loop(node.children)
+              }
+            })
+          }
+        }
+        if(label){
+          loop(this.clonedOpts);
+          return result
         }
       }
-      if(label){
-        loop(this.clonedOpts);
-        return result
-      }
-    },
-    removeTag(label){
-      let deletedItem = this.findNodeByLabel(label);
+      let deletedItem = findNodeByLabel(label);
       if(deletedItem){
         this.checkedChange(deletedItem, false);
       }
@@ -293,9 +343,10 @@ export default {
       item.checked = checked;
       this.markChildrenChecked(item);
       this.markParentChecked(item);
+      this.markParentHasCheckChild(item);
       this.pickCheckedItem(this.clonedOpts);
-      this.syncData();
       this.refresPopover();
+      this.syncData();
     },
     // 同步数据到上层
     syncData() {
@@ -319,14 +370,24 @@ export default {
       document.getElementsByClassName("cascader-popper")[0].style.width =
         width + "px";
     },
-    handleFocus(evt) {
+    handleFocus(evt){
       if (this.disabled) return;
       this.showPopover = true;
-      this.$emit("focus", evt);
+      this.$emit("focus", evt)
     },
-    handleBlur(evt) {
-      // this.hidePopover();
+    handleBlur(){
+      if (this.disabled) return;
+      this.showPopover = true;
     },
+    // visibleChange(show){
+    //   if (this.disabled) return;
+    //   this.showPopover = show;
+    //   if(show){
+    //     this.$emit("focus");
+    //   } else {
+    //     this.$emit("blur");
+    //   }
+    // },
     hidePopover(evt) {
       this.showPopover = false;
       this.$emit("blur", evt);
@@ -355,5 +416,13 @@ export default {
 }
 .el-cascader-menu__item.has-checked-child {
   background-color: #f5f7fa !important;
+}
+.dropdown__empty {
+  height: 100%;
+  padding-top: 50%;
+  margin: 0;
+  text-align: center;
+  color: #999;
+  font-size: 14px;
 }
 </style>
