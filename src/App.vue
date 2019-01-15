@@ -1,10 +1,10 @@
 <template>
   <div id="app">
     <p class="title">Ele-Multi-Cascader 示例</p>
-    <a href="https://github.com/webCoderJ/ele-multi-cascader">
+    <a href="https://github.com/webCoderJ/ele-multi-cascader" target="_blank">
       <el-button type="success" size="mini" plain>@github</el-button>
     </a>
-    <a class="ml10" href="https://www.npmjs.com/package/ele-multi-cascader">
+    <a class="ml10" href="https://www.npmjs.com/package/ele-multi-cascader" target="_blank">
       <el-button type="warning" size="mini" plain>@npm</el-button>
     </a>
     <br>
@@ -24,14 +24,41 @@
         <br>
         <br>
         <el-form label-width="100px" ref="form" :model="form" :rules="rules" label-position="left">
-          <el-form-item label="选中子项: " prop="selectChildren" align="left">
-            <el-switch
-              v-model="form.selectChildren"
-              :active-value="true"
-              :inactive-value="false"
-            >
-            </el-switch>
-          </el-form-item>
+          <el-row>
+            <el-col :span="8">
+              <el-form-item label="选中子项: " prop="selectChildren" align="left">
+                <el-switch
+                  v-model="form.selectChildren"
+                  :active-value="true"
+                  :inactive-value="false"
+                  @change="resetModel"
+                >
+                </el-switch>
+              </el-form-item>
+            </el-col>
+            <el-col :span="8">
+              <el-form-item label="展示层级:" prop="selectChildren" align="left">
+                <el-switch
+                  v-model="form.showAllLevels"
+                  :active-value="true"
+                  :inactive-value="false"
+                  @change="resetModel"
+                >
+                </el-switch>
+              </el-form-item>
+            </el-col>
+            <el-col :span="8">
+              <el-form-item label="输出层级:" prop="selectChildren" align="left">
+                <el-switch
+                  v-model="form.outputLevelValue"
+                  :active-value="true"
+                  :inactive-value="false"
+                  @change="resetModel"
+                >
+                </el-switch>
+              </el-form-item>
+            </el-col>
+          </el-row>
           <el-form-item label="运营商: " prop="isp">
             <ele-multi-cascader
               :options="options"
@@ -39,6 +66,8 @@
               placeholder="选择运营商"
               @change="ispChange"
               ref="cascader"
+              :show-all-levels="form.showAllLevels"
+              :output-level-value="form.outputLevelValue"
               :selectChildren="form.selectChildren"
             ></ele-multi-cascader>
           </el-form-item>
@@ -90,8 +119,10 @@ export default {
         ]
       },
       form: {
-        isp: [58, 59],
-        selectChildren: true
+        isp: [],
+        selectChildren: true,
+        showAllLevels: true,
+        outputLevelValue: false
       }
     };
   },
@@ -105,14 +136,24 @@ export default {
     // setTimeout(_ => {
     //   this.options = options;
     // }, 6000)
+    this.resetModel();
   },
   methods: {
     ispChange(values, items) {
       this.outputs.values = values;
       this.outputs.items = items;
     },
-    resetForm(){
-      this.$refs.cascader.initDatas();
+    resetModel(){
+      this.form.isp = [];
+      this.outputs.items = [];
+      this.outputs.values = [];
+      setTimeout(_ => {
+        this.$message({
+          message: '已重置数据',
+          type: 'success'
+        })
+        this.form.isp = this.form.outputLevelValue ? ["1/11/51","1/11/52","1/12/59"] : ["51", "52", "59"]
+      },0)
     },
     submit() {
       this.$refs.form.validate(valid => {
