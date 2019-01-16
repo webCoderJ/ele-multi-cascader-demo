@@ -2685,10 +2685,10 @@ ejs@^2.6.1:
   resolved "https://registry.yarnpkg.com/ejs/-/ejs-2.6.1.tgz#498ec0d495655abc6f23cd61868d926464071aa0"
   integrity sha512-0xy4A/twfrRCnkhfk8ErDi5DqdAsAqeGxht4xkCUrsvhhbQNs7E+4jV0CN7+NKIY0aHE72+XvqtBIXzD31ZbXQ==
 
-ele-multi-cascader@^1.0.8:
-  version "1.0.8"
-  resolved "https://registry.yarnpkg.com/ele-multi-cascader/-/ele-multi-cascader-1.0.8.tgz#1e5fe7439d32f380f41c6362bf607cb23c4d35bf"
-  integrity sha512-c3rt00yp4/sI0Rr1TU0RiQqPuhfvQM1XwK+FzZMu4NhmFZdSxYAbdMKs28iua/UmyIJbRtByOJWFX4mR0vgpRw==
+ele-multi-cascader@^2.0.3:
+  version "2.0.3"
+  resolved "https://registry.yarnpkg.com/ele-multi-cascader/-/ele-multi-cascader-2.0.3.tgz#ebc71a700ea4120fddde3d458c0c74df09109178"
+  integrity sha512-wBpvyxjvBvJxGVTN6S215PWqUrg3SRlJGeGqTUnpCeugYdd51iSAL/V7FQ6rI9JJBhy01PR2JZc1ky4LZ8Ahug==
   dependencies:
     element-ui "^2.4.11"
     vue "^2.5.17"
