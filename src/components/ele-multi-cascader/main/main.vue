@@ -2,7 +2,7 @@
   <div class="cascader-wrapper">
     <el-popover
       placement="bottom-start"
-      trigger="click"
+      trigger="manual"
       :popper-class="popperClass"
       v-model="showPopover"
     >
