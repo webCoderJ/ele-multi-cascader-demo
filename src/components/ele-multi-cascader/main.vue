@@ -2,8 +2,8 @@
   <div class="cascader-wrapper">
     <el-popover
       placement="bottom-start"
-      trigger="manual"
-      popper-class="cascader-popper"
+      trigger="click"
+      :popper-class="popperClass"
       v-model="showPopover"
     >
       <div slot="reference">
@@ -18,12 +18,11 @@
             style="width: 100%;"
             popper-class="hide-popper"
             @focus="handleFocus"
-            @blur="handleBlur"
             @remove-tag="removeTag"
           ></el-select>
         </span>
       </div>
-      <div class="cascader-menu-wrapper" v-click-outside="hidePopover">
+      <div class="cascader-menu-wrapper" v-clickoutside="hidePopover">
         <ul v-if="options.length > 0" class="el-cascader-menu cascader-menu" v-for="(cas, index) in casTree" :key="index">
           <li
             :class="{
@@ -56,7 +55,7 @@
 </template>
 
 <script>
-import ClickOutside from "vue-click-outside";
+import Clickoutside from "./clickoutside";
 function deepClone(source) {
   if (!source && typeof source !== "object") {
     throw new Error("error arguments", "shallowClone");
@@ -148,8 +147,9 @@ export default {
       }
     }
   },
-  directives: { ClickOutside },
+  directives: { Clickoutside },
   created() {
+    this.popperClass = `cascader-popper popper-class-${(new Date().getTime())}`
     this.initOpts();
     this.initDatas();
   },
@@ -168,6 +168,7 @@ export default {
     return {
       elWidth: "",
       popperWidth: "",
+      popperClass: "",
       showPopover: false,
       clonedOpts: [],
       casTree: [],
@@ -363,7 +364,7 @@ export default {
         function loop(tree){
           if(tree){
             tree.find(node => {
-              if(vm.getLevel(node, "label") === label){
+              if(vm.getLevel(node, "label", vm.showAllLevels) === label){
                 result = node;
                 return true
               }
@@ -412,17 +413,12 @@ export default {
     // 改变菜单宽度
     setPopperWidth() {
       let width = (160 + 1) * this.casTree.length;
-      document.getElementsByClassName("cascader-popper")[0].style.width =
-        width + "px";
+      document.getElementsByClassName(this.popperClass)[0].style.width = width + "px";
     },
     handleFocus(evt){
       if (this.disabled) return;
       this.showPopover = true;
       this.$emit("focus", evt)
-    },
-    handleBlur(){
-      if (this.disabled) return;
-      this.showPopover = true;
     },
     hidePopover(evt) {
       this.showPopover = false;

@@ -120,9 +120,11 @@ export default {
       },
       form: {
         isp: [],
+        isp2: [],
+        isp3: "",
         selectChildren: true,
         showAllLevels: true,
-        outputLevelValue: false
+        outputLevelValue: true
       }
     };
   },
@@ -153,6 +155,7 @@ export default {
           type: 'success'
         })
         this.form.isp = this.form.outputLevelValue ? ["1/11/51","1/11/52","1/12/59"] : ["51", "52", "59"]
+        this.form.isp2 = this.form.outputLevelValue ? ["1/11/51","1/11/52","1/12/59"] : ["51", "52", "59"]
       },0)
     },
     submit() {
