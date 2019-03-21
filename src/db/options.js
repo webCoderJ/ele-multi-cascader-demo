@@ -1,5 +1,5 @@
 module.exports = [
-    { label: "默认", id: -1, children: null, value: -1 },
+    { label: "默认", id: -1, children: null, value: -1, isLeaf: true },
     {
         label: "电信",
         children: [

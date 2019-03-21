@@ -61,6 +61,7 @@
           </el-row>
           <el-form-item label="运营商: " prop="isp">
             <ele-multi-cascader
+              allowLoadChildren
               :options="options"
               v-model="form.isp"
               placeholder="选择运营商"
@@ -69,6 +70,7 @@
               :show-all-levels="form.showAllLevels"
               :output-level-value="form.outputLevelValue"
               :selectChildren="form.selectChildren"
+              :loadChildrenMethod="loadChildren"
             ></ele-multi-cascader>
           </el-form-item>
           <br>
@@ -167,6 +169,18 @@ export default {
           });
         }
       });
+    },
+    loadChildren(item){
+			if(item.id){
+        return new Promise((resolve, reject) => {
+          setTimeout(_ => {
+            resolve([
+              { label: "电信通", id: parseInt(Math.random() * 100), children: null, value: parseInt(Math.random() * 100) }
+            ])
+            // reject(null)
+          }, 1500)
+        })
+      }
     }
   }
 };
