@@ -71,6 +71,9 @@
               :output-level-value="form.outputLevelValue"
               :selectChildren="form.selectChildren"
               :loadChildrenMethod="loadChildren"
+              labelKey="title"
+              valueKey="id"
+              childrenKey="sub"
             ></ele-multi-cascader>
           </el-form-item>
           <br>
@@ -175,7 +178,7 @@ export default {
         return new Promise((resolve, reject) => {
           setTimeout(_ => {
             resolve([
-              { label: "电信通", id: parseInt(Math.random() * 100), children: null, value: parseInt(Math.random() * 100) }
+              { title: "电信通", id: parseInt(Math.random() * 100), sub: null, value: parseInt(Math.random() * 100) }
             ])
             // reject(null)
           }, 1500)
