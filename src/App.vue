@@ -10,7 +10,7 @@
     <br>
     <br>
     <el-row class="demo-wrapper">
-      <el-col :gutter="100" class="demo-col" :span="8">
+      <el-col :gutter="100" class="demo-col" :span="7">
         <div style="text-align: left;">
           <p>Data</p>
           <pre>
@@ -18,14 +18,14 @@
           </pre>
         </div>
       </el-col>
-      <el-col :gutter="100" class="demo-col" :span="8">
+      <el-col :gutter="100" class="demo-col" :span="10">
         <br>
         <br>
         <br>
         <br>
         <el-form label-width="100px" ref="form" :model="form" :rules="rules" label-position="left">
           <el-row>
-            <el-col :span="8">
+            <el-col :span="6">
               <el-form-item label="选中子项: " prop="selectChildren" align="left">
                 <el-switch
                   v-model="form.selectChildren"
@@ -36,7 +36,7 @@
                 </el-switch>
               </el-form-item>
             </el-col>
-            <el-col :span="8">
+            <el-col :span="6">
               <el-form-item label="展示层级:" prop="selectChildren" align="left">
                 <el-switch
                   v-model="form.showAllLevels"
@@ -47,10 +47,21 @@
                 </el-switch>
               </el-form-item>
             </el-col>
-            <el-col :span="8">
+            <el-col :span="6">
               <el-form-item label="输出层级:" prop="selectChildren" align="left">
                 <el-switch
                   v-model="form.outputLevelValue"
+                  :active-value="true"
+                  :inactive-value="false"
+                  @change="resetModel"
+                >
+                </el-switch>
+              </el-form-item>
+            </el-col>
+            <el-col :span="6">
+              <el-form-item label="禁用" prop="selectChildren" align="left">
+                <el-switch
+                  v-model="form.disabled"
                   :active-value="true"
                   :inactive-value="false"
                   @change="resetModel"
@@ -71,6 +82,7 @@
               :output-level-value="form.outputLevelValue"
               :selectChildren="form.selectChildren"
               :loadChildrenMethod="loadChildren"
+              :disabled="form.disabled"
               labelKey="title"
               valueKey="id"
               childrenKey="sub"
@@ -81,7 +93,7 @@
           <p><el-button type="primary" @click="submit">测试提交</el-button></p>
         </el-form>
       </el-col>
-      <el-col :gutter="100" class="demo-col" :span="8" style="text-align: left;">
+      <el-col :gutter="100" class="demo-col" :span="7" style="text-align: left;">
         <p>Output @change(values, items)</p>
         <p>Values</p>
         <pre>
@@ -129,13 +141,14 @@ export default {
         isp3: "",
         selectChildren: true,
         showAllLevels: true,
-        outputLevelValue: true
+        outputLevelValue: true,
+        disabled: false
       }
     };
   },
   created(){
     // setTimeout(_ => {
-    //   this.form.isp = [51, 58, 59]
+    //   this.form.disabled = true
     // }, 2000)
     // setTimeout(_ => {
     //   this.options = [];
