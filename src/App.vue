@@ -77,6 +77,7 @@
               v-model="form.isp"
               placeholder="选择运营商"
               @change="ispChange"
+              @spread="spread"
               ref="cascader"
               :show-all-levels="form.showAllLevels"
               :output-level-value="form.outputLevelValue"
@@ -186,15 +187,28 @@ export default {
         }
       });
     },
+    spread(item){
+      console.log('TCL: spread -> item', item)
+      // this.$notify({
+      //   type: "success",
+      //   title: "已展开option" + item.title,
+      //   message: `isLeaf: ${item.sub ? !!item.sub[0].isLeaf : ''}`,
+      // })
+    },
     loadChildren(item){
 			if(item.id){
         return new Promise((resolve, reject) => {
           setTimeout(_ => {
             resolve([
-              { title: "电信通", id: parseInt(Math.random() * 100), sub: null, value: parseInt(Math.random() * 100) }
+              { title: "电信通", 
+                id: parseInt(Math.random() * 100), 
+                sub: null, 
+                isLeaf: Math.round(Math.random()), 
+                value: parseInt(Math.random() * 100) 
+              }
             ])
             // reject(null)
-          }, 1500)
+          }, 0)
         })
       }
     }
