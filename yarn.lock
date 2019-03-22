@@ -2685,14 +2685,13 @@ ejs@^2.6.1:
   resolved "https://registry.yarnpkg.com/ejs/-/ejs-2.6.1.tgz#498ec0d495655abc6f23cd61868d926464071aa0"
   integrity sha512-0xy4A/twfrRCnkhfk8ErDi5DqdAsAqeGxht4xkCUrsvhhbQNs7E+4jV0CN7+NKIY0aHE72+XvqtBIXzD31ZbXQ==
 
-ele-multi-cascader@^2.0.3:
-  version "2.0.3"
-  resolved "https://registry.yarnpkg.com/ele-multi-cascader/-/ele-multi-cascader-2.0.3.tgz#ebc71a700ea4120fddde3d458c0c74df09109178"
-  integrity sha512-wBpvyxjvBvJxGVTN6S215PWqUrg3SRlJGeGqTUnpCeugYdd51iSAL/V7FQ6rI9JJBhy01PR2JZc1ky4LZ8Ahug==
+ele-multi-cascader@^2.1.1:
+  version "2.1.1"
+  resolved "https://registry.yarnpkg.com/ele-multi-cascader/-/ele-multi-cascader-2.1.1.tgz#d1034143e3bbcc98f1eb326196531bacfe71fe46"
+  integrity sha512-sVN3qJ8ndAPoGz/AVH4QpQA4i2vN9LRTDGKsaXoUO7+xO2Z3sDo3je+gjt0ApbqKB50vpubGREE9+9lOXcP6uw==
   dependencies:
     element-ui "^2.4.11"
     vue "^2.5.17"
-    vue-click-outside "^1.0.7"
 
 electron-to-chromium@^1.3.47, electron-to-chromium@^1.3.82:
   version "1.3.85"
@@ -7442,11 +7441,6 @@ vm-browserify@0.0.4:
   integrity sha1-XX6kW7755Kb/ZflUOOCofDV9WnM=
   dependencies:
     indexof "0.0.1"
-
-vue-click-outside@^1.0.7:
-  version "1.0.7"
-  resolved "https://registry.yarnpkg.com/vue-click-outside/-/vue-click-outside-1.0.7.tgz#cdd2b1605e3c4944784e1794eae4a12a0f700bd6"
-  integrity sha1-zdKxYF48SUR4TheU6uShKg9wC9Y=
 
 vue-eslint-parser@^2.0.3:
   version "2.0.3"

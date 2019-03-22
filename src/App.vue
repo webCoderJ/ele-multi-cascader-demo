@@ -208,7 +208,7 @@ export default {
               }
             ])
             // reject(null)
-          }, 0)
+          }, 1000)
         })
       }
     }

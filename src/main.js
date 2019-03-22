@@ -1,8 +1,8 @@
 import Vue from 'vue'
 import App from './App.vue'
 import Element from "element-ui"
-import eleMultiCascader from "./components/ele-multi-cascader";
-// import eleMultiCascader from "ele-multi-cascader";
+// import eleMultiCascader from "./components/ele-multi-cascader";
+import eleMultiCascader from "ele-multi-cascader";
 
 Vue.config.productionTip = false
 
