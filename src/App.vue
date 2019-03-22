@@ -64,7 +64,6 @@
                   v-model="form.disabled"
                   :active-value="true"
                   :inactive-value="false"
-                  @change="resetModel"
                 >
                 </el-switch>
               </el-form-item>
