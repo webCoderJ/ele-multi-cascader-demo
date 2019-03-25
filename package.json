@@ -11,7 +11,8 @@
     "ele-multi-cascader": "^2.1.1",
     "element-ui": "^2.4.11",
     "push-dir": "^0.4.1",
-    "vue": "^2.5.17"
+    "vue": "^2.5.17",
+    "vue-github-button": "^1.0.7"
   },
   "devDependencies": {
     "@vue/cli-plugin-babel": "^3.2.0",
